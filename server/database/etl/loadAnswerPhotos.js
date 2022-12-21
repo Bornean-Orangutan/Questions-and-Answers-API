@@ -22,7 +22,7 @@ async function lineLoop() {
     const row = line.toString('ascii').split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     data[dataIndex] = {
       id: Number(row[0]),
-      answer_id: Number(row[1]),
+      answerId: Number(row[1]),
       url: row[2],
     };
     dataIndex ++;

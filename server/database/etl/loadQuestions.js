@@ -28,10 +28,10 @@ async function lineLoop() {
     data[dataIndex] = {
       id: Number(row[0]),
       product_id: Number(row[1]),
-      body: row[2],
+      body: row[2].slice(1, row[2].length - 1),
       date: Date(row[3]),
-      asker_name: row[4],
-      asker_email: row[5],
+      asker_name: row[4].slice(1, row[4].length - 1),
+      asker_email: row[5].slice(1, row[5].length - 1),
       reported: Boolean(Number(row[6])),
       helpfulness: Number(row[7])
     };

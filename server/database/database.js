@@ -52,7 +52,7 @@ const AnswerPhoto = sequelize.define('answerphotos', {
 });
 
 AnswerPhoto.belongsTo(Answer);
-Answer.hasMany(AnswerPhoto);
+Answer.hasMany(AnswerPhoto, {as: 'photos'});
 
 sequelize.sync();
 
