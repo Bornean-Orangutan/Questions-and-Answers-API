@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node ./server/index.js"
+    "server": "node ./server/index.js",
+    "loadquestions": "node ./server/database/etl/loadQuestions.js",
+    "loadanswers": "node ./server/database/etl/loadAnswers.js",
+    "loadphotos": "node ./server/database/etl/loadAnswerPhotos.js"
   },
   "repository": {
     "type": "git",
