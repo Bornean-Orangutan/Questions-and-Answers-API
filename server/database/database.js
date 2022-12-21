@@ -35,7 +35,8 @@ const Answer = sequelize.define('answers', {
   date: { type: Sequelize.DATE },
   helpfulness: { type: Sequelize.INTEGER },
   answerer_name: { type: Sequelize.TEXT },
-  answerer_email: { type: Sequelize.TEXT }
+  answerer_email: { type: Sequelize.TEXT },
+  reported: { type: Sequelize.BOOLEAN }
 });
 
 Answer.belongsTo(Question);
