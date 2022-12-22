@@ -106,7 +106,6 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
 // Complete
 app.put('/qa/answers/:answer_id/helpful', (req, res) => {
   let id = req.params.answer_id;
-  console.log('IDDD', id);
   Answer.increment('helpfulness', {where: {id}})
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
