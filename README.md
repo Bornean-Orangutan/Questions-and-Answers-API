@@ -15,3 +15,7 @@
 * Connect to database: <b>\c dbname</b>
 * Read currrent database: <b>SELECT current_database();</b>
 * List all tables: <b>\dt</b>
+#### Update the Starting AutoIncrement Values for the tables
+* ALTER SEQUENCE questions_id_seq RESTART WITH 1000;
+* ALTER SEQUENCE answers_id_seq RESTART WITH 1000;
+* ALTER SEQUENCE answerphotos_id_seq RESTART WITH 1000;

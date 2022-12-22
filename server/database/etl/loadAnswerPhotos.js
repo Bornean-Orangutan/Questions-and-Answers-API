@@ -23,7 +23,7 @@ async function lineLoop() {
     data[dataIndex] = {
       id: Number(row[0]),
       answerId: Number(row[1]),
-      url: row[2],
+      url: row[2].slice(1, row[2].length - 1),
     };
     dataIndex ++;
     if (dataIndex >= chunkSize ) {
