@@ -13,7 +13,7 @@ let dataIndex = 0;
 const chunkSize = process.env.CHUNKSIZE;
 let line;
 
-const questionLines = new nReadlines('./server/database/etl/answers_photos_sample.csv');
+const questionLines = new nReadlines('./server/database/etl/answers_photos.csv');
 
 line = questionLines.next();
 

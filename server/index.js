@@ -5,8 +5,7 @@ require('dotenv').config();
 
 let app = express();
 
-// TODO
-// Photos should return in a url array
+// Adjust on Front End
 app.get('/qa/questions', (req, res) => {
   let product_id = req.query.product_id;
   let offset = req.query.page - 1 || 0;
@@ -104,6 +103,7 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
     .catch(() => res.sendStatus(500))
 })
 
+// Complete
 app.put('/qa/answers/:answer_id/helpful', (req, res) => {
   let id = req.params.answer_id;
   console.log('IDDD', id);
@@ -112,9 +112,9 @@ app.put('/qa/answers/:answer_id/helpful', (req, res) => {
     .catch(() => res.sendStatus(500))
 })
 
+// Complete
 app.put('/qa/answers/:answer_id/report', (req, res) => {
   let id = req.params.answer_id;
-  console.log('IDDD', id);
   Answer.update({reported: true}, {where: {id}})
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
