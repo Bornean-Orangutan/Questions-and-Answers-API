@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('qna', '', '', { dialect: 'postgres' });
+const sequelize = new Sequelize('qna', '', '', { dialect: 'postgres', logging: false });
 
 sequelize.authenticate()
   .then(() => console.log('Connected to database'))
@@ -23,7 +23,7 @@ const Question = sequelize.define('questions', {
   asker_name: { type: Sequelize.TEXT },
   asker_email: { type: Sequelize.TEXT },
   reported: { type: Sequelize.BOOLEAN }
-}, {initialAutoIncrement: 1000});
+}, {indexes: [{ fields: ['product_id', 'reported']}]});
 
 const Answer = sequelize.define('answers', {
   id: {
@@ -38,7 +38,7 @@ const Answer = sequelize.define('answers', {
   answerer_name: { type: Sequelize.TEXT },
   answerer_email: { type: Sequelize.TEXT },
   reported: { type: Sequelize.BOOLEAN }
-}, {initialAutoIncrement: 1000});
+}, {indexes: [{ fields: ['reported']}, {fields: ['questionId']}]});
 
 Answer.belongsTo(Question);
 Question.hasMany(Answer);
@@ -51,7 +51,7 @@ const AnswerPhoto = sequelize.define('answerphotos', {
     autoIncrement: true
   },
   url: { type: Sequelize.TEXT }
-}, {initialAutoIncrement: 1000});
+}, {indexes: [{fields: ['answerId']}]});
 
 AnswerPhoto.belongsTo(Answer);
 Answer.hasMany(AnswerPhoto, {as: 'photos'});

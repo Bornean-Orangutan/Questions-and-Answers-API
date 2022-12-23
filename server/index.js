@@ -7,13 +7,10 @@ let app = express();
 
 // Adjust on Front End
 app.get('/qa/questions', (req, res) => {
-  let product_id = req.query.product_id;
-  let offset = req.query.page - 1 || 0;
-  let count = req.query.count || 5;
   Question.findAll({
-    limit: count,
-    offset: offset,
-    where: { product_id, reported: false },
+    limit: req.query.count || 5,
+    offset: req.query.page - 1 || 0,
+    where: { product_id: req.query.product_id, reported: false },
     attributes: [['id', 'question_id'], ['body', 'question_body'], ['date', 'question_date'], 'asker_name', ['helpfulness', 'question_helpfulness'], 'reported'],
     include: [{
       model: Answer,
@@ -27,21 +24,17 @@ app.get('/qa/questions', (req, res) => {
     }]
   })
     .then(formattedData => {
-      res.send({ product_id, results: formattedData})})
+      res.send({ product_id: req.query.product_id, results: formattedData})})
     .catch(err => {
-      console.log(err);
       res.sendStatus(500)})
 })
 
 // Complete
 app.get('/qa/questions/:question_id/answers', (req, res) => {
-  let questionId = req.params.question_id;
-  let page = req.query.page || 1;
-  let count = req.query.count || 5;
   Answer.findAll({
-    limit: count,
-    offset: page - 1,
-    where: {questionId, reported: false},
+    limit: req.query.count || 5,
+    offset: req.query.page - 1 || 0,
+    where: {questionId: req.params.question_id, reported: false},
     attributes: [['id', 'answer_id'], 'body', 'date', 'answerer_name', 'helpfulness'],
     include: {
       model: AnswerPhoto,
@@ -49,33 +42,26 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
       attributes: ['id', 'url']
     }
   })
-
-  .then(data => res.send({question: questionId, page, count, results: data}))
+  .then(data => res.send({question: req.params.question_id, page: req.query.page || 1, count: req.query.count || 5, results: data}))
   .catch(err => res.sendStatus(500))
 })
 
 // Complete
 app.post('/qa/questions', (req, res) => {
-  let product_id = req.query.product_id;
-  let body = req.query.body;
-  let asker_name = req.query.name;
-  let asker_email = req.query.email;
-  let date = new Date();
-  Question.create({product_id, body, asker_email, asker_name, date, reported: false, helpfulness: 0})
+  Question.create({product_id: req.query.product_id, body: req.query.body, asker_email: req.query.email, asker_name: req.query.name, date: new Date(), reported: false, helpfulness: 0})
     .then(() => res.send(200))
-    .catch((err) => console.log(err))
+    .catch(() => res.send(500))
 })
 
 // Complete
 app.post('/qa/questions/:question_id/answers', (req, res) => {
-  let questionId = req.params.question_id;
-  let body = req.query.body;
-  let answerer_name = req.query.name;
-  let answerer_email = req.query.email;
-  let date = new Date();
-  let photos = JSON.parse(req.query.photos);
-  console.log(typeof []);
-  Answer.create({questionId, body, answerer_email, answerer_name, date, reported: false, helpfulness: 0})
+  let photos;
+  if (req.query.photos) {
+    photos = JSON.parse(req.query.photos);
+  } else {
+    photos = [];
+  }
+  Answer.create({questionId: req.params.question_id, body: req.query.body, answerer_email: req.query.email, answerer_name: req.query.name, date: new Date(), reported: false, helpfulness: 0})
     .then((answer) => {
       let photoList = [];
       photos.forEach(url => {
@@ -105,16 +91,14 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
 
 // Complete
 app.put('/qa/answers/:answer_id/helpful', (req, res) => {
-  let id = req.params.answer_id;
-  Answer.increment('helpfulness', {where: {id}})
+  Answer.increment('helpfulness', {where: {id: req.params.answer_id}})
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
 })
 
 // Complete
 app.put('/qa/answers/:answer_id/report', (req, res) => {
-  let id = req.params.answer_id;
-  Answer.update({reported: true}, {where: {id}})
+  Answer.update({reported: true}, {where: {id: req.params.answer_id}})
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
 })
