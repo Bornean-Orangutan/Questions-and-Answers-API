@@ -2,23 +2,12 @@ const { Answer } = require('../database.js');
 const nReadlines = require('n-readlines');
 require('dotenv').config();
 
-// Data Order
-
-// ID
-// Question ID
-// Body
-// Date Written
-// Answerer Name
-// Answerer Email
-// Reported
-// Helpfull
-
 const data = [];
 let dataIndex = 0;
 const chunkSize = process.env.CHUNKSIZE;
 let line;
 
-const questionLines = new nReadlines('./server/database/etl/answers_sample.csv');
+const questionLines = new nReadlines('./server/database/etl/answers.csv');
 
 line = questionLines.next();
 
@@ -28,10 +17,10 @@ async function lineLoop() {
     data[dataIndex] = {
       id: Number(row[0]),
       questionId: Number(row[1]),
-      body: row[2],
+      body: row[2].slice(1, row[2].length - 1),
       date: Date(row[3]),
-      answerer_name: row[4],
-      answerer_email: row[5],
+      answerer_name: row[4].slice(1, row[4].length - 1),
+      answerer_email: row[5].slice(1, row[5].length - 1),
       reported: Boolean(Number(row[6])),
       helpfulness: Number(row[7])
     };

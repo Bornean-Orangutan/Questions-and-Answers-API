@@ -1,0 +1,17 @@
+config:
+  target: http://localhost:3000
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      rampTo: 1000
+    - duration: 15
+      arrivalRate: 1000
+scenarios:
+    - flow:
+      - post:
+          url: "/qa/questions"
+          qs:
+            product_id: 2
+            body: "test"
+            name: "test"
+            email: "test"

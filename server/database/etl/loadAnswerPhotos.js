@@ -2,18 +2,12 @@ const { AnswerPhoto } = require('../database.js');
 const nReadlines = require('n-readlines');
 require('dotenv').config();
 
-// Data Order
-
-// ID
-// Answer ID
-// url
-
 const data = [];
 let dataIndex = 0;
 const chunkSize = process.env.CHUNKSIZE;
 let line;
 
-const questionLines = new nReadlines('./server/database/etl/answers_photos_sample.csv');
+const questionLines = new nReadlines('./server/database/etl/answers_photos.csv');
 
 line = questionLines.next();
 
@@ -22,8 +16,8 @@ async function lineLoop() {
     const row = line.toString('ascii').split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     data[dataIndex] = {
       id: Number(row[0]),
-      answer_id: Number(row[1]),
-      url: row[2],
+      answerId: Number(row[1]),
+      url: row[2].slice(1, row[2].length - 1),
     };
     dataIndex ++;
     if (dataIndex >= chunkSize ) {
