@@ -2,17 +2,6 @@ const { Answer } = require('../database.js');
 const nReadlines = require('n-readlines');
 require('dotenv').config();
 
-// Data Order
-
-// ID
-// Question ID
-// Body
-// Date Written
-// Answerer Name
-// Answerer Email
-// Reported
-// Helpfull
-
 const data = [];
 let dataIndex = 0;
 const chunkSize = process.env.CHUNKSIZE;

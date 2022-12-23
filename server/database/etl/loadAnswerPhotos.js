@@ -2,12 +2,6 @@ const { AnswerPhoto } = require('../database.js');
 const nReadlines = require('n-readlines');
 require('dotenv').config();
 
-// Data Order
-
-// ID
-// Answer ID
-// url
-
 const data = [];
 let dataIndex = 0;
 const chunkSize = process.env.CHUNKSIZE;

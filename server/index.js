@@ -5,7 +5,6 @@ require('dotenv').config();
 
 let app = express();
 
-// Adjust on Front End
 app.get('/qa/questions', (req, res) => {
   Question.findAll({
     limit: req.query.count || 5,
@@ -29,7 +28,6 @@ app.get('/qa/questions', (req, res) => {
       res.sendStatus(500)})
 })
 
-// Complete
 app.get('/qa/questions/:question_id/answers', (req, res) => {
   Answer.findAll({
     limit: req.query.count || 5,
@@ -46,14 +44,12 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
-// Complete
 app.post('/qa/questions', (req, res) => {
   Question.create({product_id: req.query.product_id, body: req.query.body, asker_email: req.query.email, asker_name: req.query.name, date: new Date(), reported: false, helpfulness: 0})
     .then(() => res.send(200))
     .catch(() => res.send(500))
 })
 
-// Complete
 app.post('/qa/questions/:question_id/answers', (req, res) => {
   let photos;
   if (req.query.photos) {
@@ -70,7 +66,7 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
       return AnswerPhoto.bulkCreate(photoList);
     })
     .then(() => res.sendStatus(200))
-    .catch((err) => console.log(err))
+    .catch((err) => res.sendStatus(500))
 })
 
 // Complete
