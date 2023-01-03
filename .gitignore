@@ -1,0 +1,8 @@
+node_modules
+.env
+answers.csv
+questions.csv
+answers_photos.csv
+answers_sample.csv
+questions_sample.csv
+answers_photos_sample.csv
