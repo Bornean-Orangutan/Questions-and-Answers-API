@@ -1,6 +1,8 @@
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('qna', '', '', { dialect: 'postgres', logging: false });
+
+const sequelize = new Sequelize('qna', 'ubuntu', 'ubuntu', { dialect: 'postgres', logging: false , host: process.env.PGPORT});
 
 sequelize.authenticate()
   .then(() => console.log('Connected to database'))
