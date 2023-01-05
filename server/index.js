@@ -8,6 +8,8 @@ let app = express();
 
 app.use(cors());
 
+app.use(express.json());
+
 app.get('/qa/questions', (req, res) => {
   Question.findAll({
     limit: req.query.count || 5,
@@ -48,21 +50,19 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
 })
 
 app.post('/qa/questions', (req, res) => {
-  console.log(req.params);
-  Question.create({product_id: req.query.product_id, body: req.query.body, asker_email: req.query.email, asker_name: req.query.name, date: new Date(), reported: false, helpfulness: 0})
+  Question.create({product_id: req.query.product_id, body: req.body.body, asker_email: req.body.email, asker_name: req.body.name, date: new Date(), reported: false, helpfulness: 0})
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
 })
 
 app.post('/qa/questions/:question_id/answers', (req, res) => {
-  console.log(req.params);
   let photos;
   if (req.query.photos) {
     photos = JSON.parse(req.query.photos);
   } else {
     photos = [];
   }
-  Answer.create({questionId: req.params.question_id, body: req.query.body, answerer_email: req.query.email, answerer_name: req.query.name, date: new Date(), reported: false, helpfulness: 0})
+  Answer.create({questionId: req.params.question_id, body: req.body.body, answerer_email: req.body.email, answerer_name: req.body.name, date: new Date(), reported: false, helpfulness: 0})
     .then((answer) => {
       let photoList = [];
       photos.forEach(url => {
