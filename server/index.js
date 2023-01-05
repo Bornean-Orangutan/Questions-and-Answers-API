@@ -48,12 +48,14 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
 })
 
 app.post('/qa/questions', (req, res) => {
+  console.log(req.query);
   Question.create({product_id: req.query.product_id, body: req.query.body, asker_email: req.query.email, asker_name: req.query.name, date: new Date(), reported: false, helpfulness: 0})
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(500))
 })
 
 app.post('/qa/questions/:question_id/answers', (req, res) => {
+  console.log(req.query);
   let photos;
   if (req.query.photos) {
     photos = JSON.parse(req.query.photos);
