@@ -1,9 +1,12 @@
 const express = require('express');
+var cors = require('cors');
 const { Answer, Question, AnswerPhoto } = require('./database/database.js');
 
 require('dotenv').config();
 
 let app = express();
+
+app.use(cors());
 
 app.get('/qa/questions', (req, res) => {
   Question.findAll({
